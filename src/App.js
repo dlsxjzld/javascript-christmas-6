@@ -102,7 +102,7 @@ class App {
 
   printBenefitDetails(eventPlanner) {
     OutputView.printResult(MESSAGE.BENEFIT_DETAILS);
-    if (!eventPlanner.getCanEvent()) {
+    if (!eventPlanner.getCanEvent() || this.checkAllBenefit(eventPlanner)) {
       this.printNo();
       return;
     }
@@ -110,9 +110,21 @@ class App {
     OutputView.printResult('');
   }
 
+  checkAllBenefit(eventPlanner) {
+    const { christmasDiscount, dayDiscount, starDiscount, freeGift } =
+      this.getAllDiscount(eventPlanner);
+    return (
+      christmasDiscount === 0 &&
+      dayDiscount === 0 &&
+      starDiscount === 0 &&
+      freeGift.price === 0
+    );
+  }
+
   printBenefits(eventPlanner) {
     const { christmasDiscount, dayDiscount, starDiscount, freeGift } =
       this.getAllDiscount(eventPlanner);
+
     this.printChristmasDiscount(christmasDiscount);
     this.printDayDiscount(eventPlanner, dayDiscount);
     this.printStarDiscount(starDiscount);
