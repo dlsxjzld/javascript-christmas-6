@@ -103,6 +103,9 @@ const isQuantityRangeOkay = (input) => {
 const isQuantityInteger = (input) => {
   const orders = input.split(',').map((order) => {
     const [menu, quantity] = order.split('-');
+    if (quantity === '') {
+      return [menu, NaN];
+    }
     return [menu, Number(quantity)];
   });
   toThrowNewError(
