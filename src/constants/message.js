@@ -1,4 +1,4 @@
-const MESSAGE = {
+export const MESSAGE = {
   EVENT_PLANNER_INSTRUCTION:
     '안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.\n',
   ASK_VISIT_DATE:
