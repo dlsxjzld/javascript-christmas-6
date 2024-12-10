@@ -55,7 +55,7 @@ export default class EventPlanner {
   getFreeGift() {
     const { menu, quantity } = this.eventInfo.getFreeGift(this.getTotalPrice());
 
-    return { menu, quantity, price: MENU_PRICE[menu] * quantity };
+    return { menu, quantity, price: (MENU_PRICE[menu] ?? 0) * quantity };
   }
 
   getEventBadge(totalDiscount) {
