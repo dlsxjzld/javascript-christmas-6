@@ -1,6 +1,7 @@
 import { InputView } from './view/InputView.js';
 import { OutputView } from './view/OutputView.js';
 import { MESSAGE } from './constants/message.js';
+import { validateVisitDate } from './validation/validateFunctions.js';
 
 class App {
   async run() {
@@ -12,8 +13,7 @@ class App {
   async getVisitDate() {
     try {
       const input = await InputView.readUserInput(MESSAGE.ASK_VISIT_DATE);
-      const validate = (input) => true;
-      validate(input);
+      validateVisitDate(input);
       return input;
     } catch (error) {
       OutputView.printResult(error.message);
