@@ -6,8 +6,8 @@ import { validateVisitDate } from './validation/validateFunctions.js';
 class App {
   async run() {
     OutputView.printResult(MESSAGE.EVENT_PLANNER_INSTRUCTION);
-    const input = await this.getVisitDate();
-    console.log('input', input);
+    const visitDate = await this.getVisitDate();
+    const menuAndQuantity = await this.getMenuAndQuantity();
   }
 
   async getVisitDate() {
@@ -18,6 +18,17 @@ class App {
     } catch (error) {
       OutputView.printResult(error.message);
       return this.getVisitDate();
+    }
+  }
+
+  async getMenuAndQuantity() {
+    try {
+      const input = await InputView.readUserInput(MESSAGE.ASK_MENU);
+      // TODO: validateMenuAndQuantity
+      return input;
+    } catch (error) {
+      OutputView.printResult(error.message);
+      return this.getMenuAndQuantity();
     }
   }
 }
