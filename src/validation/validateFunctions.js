@@ -8,7 +8,7 @@ export const toThrowNewError = (condition, errorMessage) => {
 };
 
 const hasEmptySpace = (input) => [
-  toThrowNewError(input.include(' '), '공백은 안됩니다.'),
+  toThrowNewError(input.includes(' '), '공백은 안됩니다.'),
 ];
 
 const isEmptyString = (input) => {
@@ -22,15 +22,11 @@ const isNumberType = (input) => {
   );
 };
 
-const isPositiveNumber = (input) => {
-  toThrowNewError(Number(input) > 0 === false, '양의 정수만 가능합니다.');
-};
-
 const isRangeOkay = (input) => {
   const number = Number(input);
   toThrowNewError(
     number < CONSTANT.MIN_VISIT_RANGE || number > CONSTANT.MAX_VISIT_RANGE,
-    '1이상 31이하의 숫자만 가능합니다.',
+    '유효하지 않은 날짜입니다. 다시 입력해 주세요.',
   );
 };
 
@@ -38,6 +34,5 @@ export const validateVisitDate = (input) => {
   hasEmptySpace(input);
   isEmptyString(input);
   isNumberType(input);
-  isPositiveNumber(input);
   isRangeOkay(input);
 };
