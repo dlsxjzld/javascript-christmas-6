@@ -1,4 +1,3 @@
-import { Console } from '@woowacourse/mission-utils';
 import { CONSTANT } from '../constants/constant.js';
 import { MENU_KIND, MENU_PRICE, DRINK } from '../constants/menu.js';
 

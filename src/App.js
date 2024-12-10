@@ -40,13 +40,22 @@ class App {
     }
   }
 
+  getAllValues(eventPlanner) {
+    const totalPrice = eventPlanner.getTotalPrice();
+    const freeDiscount = eventPlanner.getFreeGift().price;
+    const totalDiscount = this.getTotalDiscount(eventPlanner);
+    return { totalPrice, freeDiscount, totalDiscount };
+  }
+
   printEvent(eventPlanner, visitDate) {
     OutputView.printResult(MESSAGE.EVENT_PLANNER(12, visitDate));
     eventPlanner.start();
     this.printAllMenu(eventPlanner);
-    const totalPrice = this.printTotalPrice(eventPlanner);
-    const freeDiscount = this.printFreeGift(eventPlanner);
-    const totalDiscount = this.printBenefitDetails(eventPlanner);
+    this.printTotalPrice(eventPlanner);
+    this.printFreeGift(eventPlanner);
+    this.printBenefitDetails(eventPlanner);
+    const { totalPrice, freeDiscount, totalDiscount } =
+      this.getAllValues(eventPlanner);
     this.printTotalDiscount(totalDiscount);
     this.printAfterDiscount(totalPrice - totalDiscount + freeDiscount);
     this.printBadge(totalDiscount, eventPlanner);
@@ -68,20 +77,18 @@ class App {
       `${eventPlanner.getTotalPrice().toLocaleString()}원`,
     );
     OutputView.printResult('');
-    return eventPlanner.getTotalPrice();
   }
 
   printFreeGift(eventPlanner) {
     OutputView.printResult(MESSAGE.FREE_GIFT);
-    if (!eventPlanner.getCanEvent()) {
+    const { menu, quantity } = eventPlanner.getFreeGift();
+    if (!eventPlanner.getCanEvent() || quantity === 0) {
       OutputView.printResult('없음');
       OutputView.printResult('');
-      return 0;
+      return;
     }
-    const { menu, quantity, price } = eventPlanner.getFreeGift();
     OutputView.printResult(`${menu} ${quantity}개`);
     OutputView.printResult('');
-    return price;
   }
 
   getAllDiscount(eventPlanner) {
@@ -96,10 +103,14 @@ class App {
   printBenefitDetails(eventPlanner) {
     OutputView.printResult(MESSAGE.BENEFIT_DETAILS);
     if (!eventPlanner.getCanEvent()) {
-      OutputView.printResult('없음');
-      OutputView.printResult('');
-      return 0;
+      this.printNo();
+      return;
     }
+    this.printBenefits(eventPlanner);
+    OutputView.printResult('');
+  }
+
+  printBenefits(eventPlanner) {
     const { christmasDiscount, dayDiscount, starDiscount, freeGift } =
       this.getAllDiscount(eventPlanner);
 
@@ -113,8 +124,16 @@ class App {
     OutputView.printResult(
       `증정 이벤트: -${freeGift.price.toLocaleString()}원`,
     );
-    OutputView.printResult('');
+  }
 
+  printNo() {
+    OutputView.printResult('없음');
+    OutputView.printResult('');
+  }
+
+  getTotalDiscount(eventPlanner) {
+    const { christmasDiscount, dayDiscount, starDiscount, freeGift } =
+      this.getAllDiscount(eventPlanner);
     return christmasDiscount + dayDiscount + starDiscount + freeGift.price;
   }
 
