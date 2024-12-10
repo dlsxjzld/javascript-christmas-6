@@ -113,17 +113,40 @@ class App {
   printBenefits(eventPlanner) {
     const { christmasDiscount, dayDiscount, starDiscount, freeGift } =
       this.getAllDiscount(eventPlanner);
+    this.printChristmasDiscount(christmasDiscount);
+    this.printDayDiscount(eventPlanner, dayDiscount);
+    this.printStarDiscount(starDiscount);
+    this.printFreeGiftDiscount(freeGift);
+  }
 
-    OutputView.printResult(
-      `크리스마스 디데이 할인: -${christmasDiscount.toLocaleString()}원`,
-    );
-    OutputView.printResult(
-      `${eventPlanner.getKindOfDay()} 할인: -${dayDiscount.toLocaleString()}원`,
-    );
-    OutputView.printResult(`특별 할인: -${starDiscount.toLocaleString()}원`);
-    OutputView.printResult(
-      `증정 이벤트: -${freeGift.price.toLocaleString()}원`,
-    );
+  printChristmasDiscount(christmasDiscount) {
+    if (christmasDiscount !== 0) {
+      OutputView.printResult(
+        `크리스마스 디데이 할인: -${christmasDiscount.toLocaleString()}원`,
+      );
+    }
+  }
+
+  printDayDiscount(eventPlanner, dayDiscount) {
+    if (dayDiscount !== 0) {
+      OutputView.printResult(
+        `${eventPlanner.getKindOfDay()} 할인: -${dayDiscount.toLocaleString()}원`,
+      );
+    }
+  }
+
+  printStarDiscount(starDiscount) {
+    if (starDiscount !== 0) {
+      OutputView.printResult(`특별 할인: -${starDiscount.toLocaleString()}원`);
+    }
+  }
+
+  printFreeGiftDiscount(freeGift) {
+    if (freeGift.price !== 0) {
+      OutputView.printResult(
+        `증정 이벤트: -${freeGift.price.toLocaleString()}원`,
+      );
+    }
   }
 
   printNo() {
